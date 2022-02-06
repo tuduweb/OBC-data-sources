@@ -14,7 +14,7 @@ IF (APPLE)
 set(CMAKE_PREFIX_PATH ${CMAKE_PREFIX_PATH} "/usr/local/opt/qt5/lib/cmake")
 ENDIF()
 
-project(OBCDataFfmpeg VERSION 0.1 LANGUAGES CXX)
+project(OBCDataSources VERSION 0.1 LANGUAGES CXX)
 
 
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
@@ -25,14 +25,18 @@ set(CMAKE_AUTORCC ON)
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
-find_package(QT NAMES Qt6 Qt5 COMPONENTS Core Widgets WebSockets Network LinguistTools REQUIRED)
-find_package(Qt${QT_VERSION_MAJOR} COMPONENTS Core Widgets WebSockets Network LinguistTools REQUIRED)
+find_package(QT NAMES Qt6 Qt5 COMPONENTS Core Widgets WebSockets Network LinguistTools SerialPort REQUIRED)
+find_package(Qt${QT_VERSION_MAJOR} COMPONENTS Core Widgets WebSockets Network LinguistTools SerialPort REQUIRED)
 
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/src/)
 
 set(PROJECT_SOURCES
         #resources.qrc
         src/main.cpp
+
+        src/base/interface/StreamInterface.hpp
+        src/sources/serial/SerialStream.hpp
+        src/sources/serial/SerialStream.cpp
 )
 
 add_executable(${PROJECT_NAME}
@@ -46,6 +50,7 @@ target_link_libraries(obc_baselib
     PUBLIC Qt${QT_VERSION_MAJOR}::Core
     Qt${QT_VERSION_MAJOR}::Widgets
     Qt${QT_VERSION_MAJOR}::Network
+    Qt${QT_VERSION_MAJOR}::SerialPort
 )
 
 
